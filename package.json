@@ -1,0 +1,115 @@
+{
+  "name": "local-slms",
+  "displayName": "Local SLMs",
+  "description": "Download and run small language models (Gemma, Phi, Qwen, SmolLM, ...) entirely inside VS Code via WebGPU + WebAssembly, exposed as a Local SLMs provider in the Copilot Chat model picker.",
+  "version": "0.1.0",
+  "publisher": "aaboyles",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.104.0"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "llm",
+    "slm",
+    "gemma",
+    "webgpu",
+    "wasm",
+    "webllm",
+    "local model",
+    "copilot chat"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aaboyles/local-slms-in-vscodechat"
+  },
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languageModelChatProviders": [
+      {
+        "vendor": "local-slms",
+        "displayName": "Local SLMs",
+        "managementCommand": "localSlms.manage"
+      }
+    ],
+    "commands": [
+      {
+        "command": "localSlms.manage",
+        "title": "Manage Local Models...",
+        "category": "Local SLMs"
+      },
+      {
+        "command": "localSlms.showPanel",
+        "title": "Show Engine Panel",
+        "category": "Local SLMs"
+      },
+      {
+        "command": "localSlms.downloadModel",
+        "title": "Download Model...",
+        "category": "Local SLMs"
+      },
+      {
+        "command": "localSlms.clearCache",
+        "title": "Clear Downloaded Models...",
+        "category": "Local SLMs"
+      }
+    ],
+    "configuration": {
+      "title": "Local SLMs",
+      "properties": {
+        "localSlms.maxModelSizeBillionParams": {
+          "type": "number",
+          "default": 4.5,
+          "minimum": 0.1,
+          "maximum": 100,
+          "description": "Only models with an (effective) parameter count at or below this many billion parameters are offered in the Copilot Chat model picker. Raise this to see larger prebuilt WebLLM models, or use localSlms.customModels to add specific ones regardless of size."
+        },
+        "localSlms.customModels": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "Additional WebLLM prebuilt model ids (from the MLC model catalog) to offer in the model picker, regardless of localSlms.maxModelSizeBillionParams. Example: \"gemma-2-9b-it-q4f16_1-MLC\"."
+        },
+        "localSlms.cacheBackend": {
+          "type": "string",
+          "enum": [
+            "cache",
+            "indexeddb",
+            "opfs"
+          ],
+          "default": "cache",
+          "description": "Browser storage backend WebLLM uses to cache downloaded model weights inside the extension's webview."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "node esbuild.js --production",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "pretest": "npm run compile && npm run lint",
+    "vsix": "npm run package && vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@mlc-ai/web-llm": "^0.2.84",
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.104.0",
+    "@typescript-eslint/eslint-plugin": "^8.63.0",
+    "@typescript-eslint/parser": "^8.63.0",
+    "@vscode/vsce": "^3.9.2",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.6.0",
+    "typescript": "^6.0.3"
+  }
+}
