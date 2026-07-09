@@ -77,7 +77,12 @@ Press <kbd>F5</kbd> in VS Code to launch an Extension Development Host with the 
 npm run check-types   # tsc --noEmit
 npm run lint           # eslint
 npm run package         # production build (dist/)
+npm run vsix            # production build + package as a .vsix
 ```
+
+### Releases
+
+Pushing to `main` (e.g. merging a PR) runs [`.github/workflows/release.yml`](.github/workflows/release.yml), which type-checks, lints, builds a `.vsix`, and publishes it as a GitHub Release tagged `v<version>` — reading `<version>` from `package.json`. Bump the `version` field before merging to cut a new release; if a release for the current version already exists, the workflow skips packaging instead of failing.
 
 ## License
 

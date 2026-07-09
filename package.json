@@ -98,18 +98,18 @@
     "package": "node esbuild.js --production",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "pretest": "npm run compile && npm run lint"
+    "pretest": "npm run compile && npm run lint",
+    "vsix": "npm run package && vsce package --no-dependencies"
   },
   "devDependencies": {
+    "@mlc-ai/web-llm": "^0.2.84",
     "@types/node": "^20.14.0",
     "@types/vscode": "^1.104.0",
     "@typescript-eslint/eslint-plugin": "^8.63.0",
     "@typescript-eslint/parser": "^8.63.0",
+    "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.1",
     "eslint": "^10.6.0",
     "typescript": "^6.0.3"
-  },
-  "dependencies": {
-    "@mlc-ai/web-llm": "^0.2.84"
   }
 }
